@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4435814051162391"
-     crossorigin="anonymous"></script>
-  <title>About Me</title>
+  <title>Todo App</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,39 +14,92 @@
       text-align: center;
     }
 
-    p {
-      line-height: 1.6;
-    }
-
     .container {
-      max-width: 800px;
+      max-width: 400px;
       margin: 0 auto;
     }
 
-    .profile-image {
-      display: block;
-      margin: 0 auto;
-      width: 200px;
-      border-radius: 50%;
+    .todo-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    .todo-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      margin-bottom: 5px;
+      background-color: #f0f0f0;
+    }
+
+    .todo-item.completed {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .todo-item .actions {
+      display: flex;
+      gap: 10px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>About Me</h1>
-    <img class="profile-image" src="your-profile-image.jpg" alt="Profile Image">
-    <p>
-      Hi, my name is John Doe. I am a passionate web developer with several years of experience. I have a strong background in HTML, CSS, and JavaScript. I enjoy building intuitive and user-friendly web applications.
-    </p>
-    <p>
-      During my career, I have worked on various projects, both individually and as part of a team. I am adept at collaborating with others and can quickly adapt to new technologies and frameworks.
-    </p>
-    <p>
-      In my free time, I like to explore new technologies, contribute to open-source projects, and share my knowledge through writing technical articles and tutorials.
-    </p>
-    <p>
-      If you have any questions or would like to get in touch, feel free to reach out to me at john.doe@example.com.
-    </p>
+    <h1>Todo App</h1>
+    <input id="todoInput" class="todo-input" type="text" placeholder="Add a new todo">
+    <ul id="todoList" class="todo-list"></ul>
   </div>
+
+  <script>
+    const todoInput = document.getElementById('todoInput');
+    const todoList = document.getElementById('todoList');
+
+    // Add todo
+    function addTodo() {
+      const todoText = todoInput.value.trim();
+
+      if (todoText !== '') {
+        const todoItem = document.createElement('li');
+        todoItem.className = 'todo-item';
+        todoItem.innerHTML = `
+          <span>${todoText}</span>
+          <div class="actions">
+            <button onclick="completeTodo(event)">Complete</button>
+            <button onclick="deleteTodo(event)">Delete</button>
+          </div>
+        `;
+
+        todoList.appendChild(todoItem);
+        todoInput.value = '';
+      }
+    }
+
+    // Complete todo
+    function completeTodo(event) {
+      const todoItem = event.target.parentNode.parentNode;
+      todoItem.classList.toggle('completed');
+    }
+
+    // Delete todo
+    function deleteTodo(event) {
+      const todoItem = event.target.parentNode.parentNode;
+      todoList.removeChild(todoItem);
+    }
+
+    // Event listeners
+    todoInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        addTodo();
+      }
+    });
+  </script>
 </body>
 </html>
